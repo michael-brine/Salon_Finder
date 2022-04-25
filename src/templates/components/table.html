@@ -1,0 +1,10 @@
+{% for salon in salons %}
+    <tr>
+        <td class="border">{{ salon.salon_name }}</td>
+        <td class="border">{{ salon.rating }}</td>
+        <td class="border">{{ salon.budget }}</td>
+        <td class="border">{{ salon.website }}</td>
+        <td class="border">{{ salon.phone }}</td>
+        <td class="border">{{ salon.address}}</td>
+    </tr>
+{% endfor %}

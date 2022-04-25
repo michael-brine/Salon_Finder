@@ -1,0 +1,6 @@
+fastapi
+Jinja2
+uvicorn
+sqlalchemy
+psycopg2
+python-dotenv
