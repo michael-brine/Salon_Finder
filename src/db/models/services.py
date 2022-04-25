@@ -11,7 +11,7 @@ class Services(Base):
     kids_haircut = Column(Boolean)
     bridal_service = Column(Boolean)
     hair_extension = Column(Boolean)
-    hair_styling = Column(Boolean)
+    hairsyling = Column(Boolean)
     makeup = Column(Boolean)
     mens_haircut = Column(Boolean)
     womens_haircut = Column(Boolean)
