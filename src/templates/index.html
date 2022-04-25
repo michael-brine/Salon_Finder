@@ -11,10 +11,10 @@
 </head>
 
 <body>
-    <div class="mx-4">
-        <p class="text-2xl font-bold mb-4">Salon Finder</p>
-        <table class="min-w-[50%] mb-4">
-            <thead class="border-b text-lg">
+    <div>
+        <p>Salon Finder</p>
+        <table >
+            <thead>
                 <tr>
                     <th class="border">Name</th>
                     <th class="border">Rating</th>
@@ -24,13 +24,91 @@
                     <th class="border">Address</th>
                 </tr>
             </thead>
-            <tbody class="text-center text-sm" id="table-body">
+            <tbody id="table-body">
                 {% include 'components/table.html' %}
             </tbody>
         </table>
-        <button class="px-3 py-1 bg-blue-600 text-white ml-4" hx-get="/index/" hx-target="#table-body"
-            hx-swap="beforeend">Load More</button>
-    </div>
+        <form action="http://127.0.0.1:8000/query" method="GET" id="query">
+            <div> Services
+                <input type="checkbox" id="coloring" name="coloring" checked></input>
+                <label for="coloring">Coloring</label>
+
+                <input type="checkbox" id="blowout" name="blowout" checked></input>
+                <label for="blowout">Blowout</label>
+
+                <input type="checkbox" id="hair_treatment" name="hair_treatment" checked></input>
+                <label for="hair_treatment">Hair Treatment</label>
+
+                <input type="checkbox" id="kids_hair_cut" name="kids_hair_cut" checked></input>
+                <label for="kids_hair_cut">Kids Hair Cut</label>
+
+                <input type="checkbox" id="bridal_service" name="bridal_service" checked></input>
+                <label for="bridal_service">Bridal Service</label>
+
+                <input type="checkbox" id="hair_extension" name="hair_extension" checked></input>
+                <label for="hair_extension">Hair Extension</label>
+
+                <input type="checkbox" id="hairstyling" name="hairstyling" checked></input>
+                <label for="hairstyling">Hairstyling</label>
+
+                <input type="checkbox" id="makeup"" name="makeup"" checked></input>
+                <label for="makeup">Makeup</label>
+  
+                <input type="checkbox" id="mens_haircut" name="mens_haircut" checked></input>
+                <label for="mens_haircut">Mens Haircut</label>
+
+                <input type="checkbox" id="womens_haircut" name="womens_haircut" checked></input>
+                <label for="womens_haircut">Womens Haircut</label>
+            </div>
+            <div> Amenities
+                <input type="checkbox" id="mask_required" name="mask_required" checked></input>
+                <label for="mask_required">Mask Required</label>
+
+                <input type="checkbox" id="accepts_card" name="accepts_card" checked></input>
+                <label for="accepts_card">Accepts Card</label>
+
+                <input type="checkbox" id="accepts_andriod" name="accepts_andriod" checked></input>
+                <label for="accepts_andriod">Accepts Andriod Pay</label>
+
+                <input type="checkbox" id="accepts_apple" name="accepts_apple" checked></input>
+                <label for="accepts_apple">Acepts Apple Pay</label>
+                <input type="checkbox" id="good_for_kids" name="good_for_kids" checked></input>
+                <label for="good_for_kids">Good for Kids</label>
+
+                <input type="checkbox" id="car_parking" name="car_parking" checked></input>
+                <label for="car_parking">Car Parking</label>
+
+                <input type="checkbox" id="bike_parking" name="bike_parking" checked></input>
+                <label for="bike_parking">Bike Parking</label>
+
+                <input type="checkbox" id="free_wifi" name="free_wifi" checked></input>
+                <label for="free_wifi">Free Wifi</label>
+
+                <input type="checkbox" id="wheelchair_access" name="wheelchair_access" checked></input>
+                <label for="wheelchair_access">Wheelchair Access</label>
+
+                <input type="checkbox" id="restrooms" name="restrooms" checked></input>
+                <label for="restrooms">Restroom</label>
+                
+                <input type="checkbox" id="appointments" name="appointments" checked></input>
+                <label for="appointments">Appointment Only</label>
+            </div>
+            <div> Budget
+                <input type="radio" id="_$" name="budget" checked></input>
+                <label for="_$">$</label>
+                <input type="radio" id="_$$" name="budget"></input>
+                <label for="_$$">$$</label>
+                <input type="radio" id="_$$$" name="budget"></input>
+                <label for="_$$$">$$$</label>
+            </div>
+            <button type="submit" form="query" value="Submit">Submit</button>
+        </form>
+        <div>
+            <button hx-get="/query" hx-target="#table-body">Submit</button>
+            <button hx-get="/" hx-target="#table-body">Show
+                All</button>
+            </div>
+        </div>
 </body>
 
 </html>
