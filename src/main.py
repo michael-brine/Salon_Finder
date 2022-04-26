@@ -45,13 +45,13 @@ def query(budget, request: Request, hx_request: Optional[str] =  Header(None), d
     q_service_filters = {}
     for n in service_names:
         if l[n] == 'on':
-            q_service_filters[n] = 'on'
+            q_service_filters[n] = True
     print('service filter:', q_service_filters)
 
     q_amenties_filters = {}
     for n in amenties_names:
         if l[n] == 'on':
-            q_amenties_filters[n] = 'on'
+            q_amenties_filters[n] = True
     print('service filter:', q_amenties_filters)
 
     q = db.query(Salon)
