@@ -1,10 +1,12 @@
-{% for salon in salons %}
+{% for r in salons %}
     <tr>
-        <td class="border">{{ salon.salon_name }}</td>
-        <td class="border">{{ salon.rating }}</td>
-        <td class="border">{{ salon.budget }}</td>
-        <td class="border">{{ salon.website }}</td>
-        <td class="border">{{ salon.phone }}</td>
-        <td class="border">{{ salon.address}}</td>
+        <td class="border">{{ r.Salon.salon_name }}</td>
+        <td class="border">{{ r.Salon.rating }}</td>
+        <td class="border">{{ r.Salon.budget }}</td>
+        <td class="border">{{ r.Salon.website }}</td>
+        <td class="border">{{ r.Salon.phone }}</td>
+        <td class="border">{{ r.Salon.address }}</td>
+        <td class="border">{{ r.open_time }}</td>
+        <td class="border">{{ r.close_time }}</td>
     </tr>
 {% endfor %}

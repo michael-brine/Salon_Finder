@@ -20,8 +20,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get('/', response_class=HTMLResponse)
 def index(request: Request, hx_request: Optional[str] =  Header(None), db: Session = Depends(get_db)):
-    #salons = [{'name': 'test', 'rating': 4, 'budget': '1-10', 'website': 'http', 'phone': '408', 'address': '123'}]
-    salons = db.query(Salon).all()
+    salons = db.query(Salon, Hour.open_time, Hour.close_time).filter(Hour.day == 2).join(Hour, Salon.salon_id == Hour.salon_id).all()
     context = {'request': request, 'salons': salons}
     if hx_request:
         return templates.TemplateResponse("components/table.html", context)
@@ -29,7 +28,7 @@ def index(request: Request, hx_request: Optional[str] =  Header(None), db: Sessi
 
 
 @app.get('/query',)
-def query(budget, request: Request, hx_request: Optional[str] =  Header(None), db: Session = Depends(get_db),
+def query(budget, days, request: Request, hx_request: Optional[str] =  Header(None), db: Session = Depends(get_db),
  coloring='off', blowout='off', hair_treatment='off', kids_haircut='off', bridal_service='off', hair_extension='off',
  hairsyling='off', makeup='off', mens_haircut='off', womens_haircut='off', mask_required='off', accepts_card='off',
  accepts_andriod='off', accepts_apple='off', good_for_kids='off', car_parking='off', bike_parking='off', free_wifi='off',
@@ -44,29 +43,29 @@ def query(budget, request: Request, hx_request: Optional[str] =  Header(None), d
 
     l = locals()
 
-    q_service_filters = {}
-    for n in service_names:
-        if l[n] == 'on':
-            q_service_filters[n] = True
-    print('service filter:', q_service_filters)
-
-    q_amenties_filters = {}
-    for n in amenties_names:
-        if l[n] == 'on':
-            q_amenties_filters[n] = True
-    print('amenties filter:', q_amenties_filters)
-
-    q = db.query(Salon)
-
-    for attr, value in q_service_filters.items():
-        q = q.filter(getattr(Services, attr) == value)
-
-    for attr, value in q_amenties_filters.items():
-        q = q.filter(getattr(Amenities, attr) == value)
-
-    q = q.filter(Salon.budget == budgets[budget]).join(Services, Salon.salon_id == Services.salon_id).join(Amenities, Salon.salon_id == Amenities.salon_id).all()
+    q = db.query(Salon, Hour.open_time, Hour.close_time)
+    q = dynamic_filter(q, make_filters(service_names, l), Services)
+    q = dynamic_filter(q, make_filters(amenties_names, l), Amenities)
+    q = q.filter(Salon.budget == budgets[budget]).filter(Hour.day == int(days))\
+    .join(Services, Salon.salon_id == Services.salon_id)\
+    .join(Amenities, Salon.salon_id == Amenities.salon_id)\
+    .join(Hour, Salon.salon_id == Hour.salon_id)\
+    .all()
 
     context = {'request': request, 'salons': q}
+
     if hx_request:
         return templates.TemplateResponse("components/table.html", context)
     return templates.TemplateResponse("index.html", context)
+
+def make_filters(names, l):
+    filters = {}
+    for n in names:
+        if l[n] == 'on':
+            filters[n] = True
+    return filters
+
+def dynamic_filter(q, filters, table):
+    for attr, value in filters.items():
+        q = q.filter(getattr(table, attr) == value)
+    return q

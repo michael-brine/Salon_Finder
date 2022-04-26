@@ -4,5 +4,5 @@ create table amenities(salon_id int primary key, mask_required bool, accepts_car
 \copy amenities from '~/Desktop/salon_data/amenities.csv' delimiter ',' csv header;
 create table services(salon_id int primary key, coloring bool, blowout bool, hair_treatment bool, kids_haircut bool, bridal_service bool, hair_extension bool, hairsyling bool, makeup bool, mens_haircut bool, womens_haircut bool);
 \copy services from '~/Desktop/salon_data/services.csv' delimiter ',' csv header;
-create table hours(salon_id int, day int, open varchar(255), close varchar(255));
+create table hours(salon_id int, day int, open_time varchar(255), close_time varchar(255));
 \copy hours from '~/Desktop/salon_data/hours.csv' delimiter ',' csv header;
