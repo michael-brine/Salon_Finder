@@ -1,5 +1,5 @@
 # salon_finder_2
-CSE 412 Project
+CSE 412 Project,
 Zou 25695
 
 About
