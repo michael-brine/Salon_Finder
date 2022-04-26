@@ -1,6 +1,7 @@
 from turtle import color
 from typing import Optional
 from fastapi import FastAPI, Request, Header, Depends
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
@@ -13,6 +14,7 @@ from db.models.amenities import Amenities
 from db.models.services import Services
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
@@ -52,7 +54,7 @@ def query(budget, request: Request, hx_request: Optional[str] =  Header(None), d
     for n in amenties_names:
         if l[n] == 'on':
             q_amenties_filters[n] = True
-    print('service filter:', q_amenties_filters)
+    print('amenties filter:', q_amenties_filters)
 
     q = db.query(Salon)
 
@@ -68,24 +70,3 @@ def query(budget, request: Request, hx_request: Optional[str] =  Header(None), d
     if hx_request:
         return templates.TemplateResponse("components/table.html", context)
     return templates.TemplateResponse("index.html", context)
-
-
-# Salon.budget == budgets[budget], Services.coloring == on_off[coloring], 
-#     Services.blowout == on_off[blowout], Services.hair_treatment == on_off[hair_treatment], 
-#     Services.kids_haircut == on_off[kids_haircut], Services.bridal_service == on_off[bridal_service],
-#     Services.hair_extension == on_off[hair_extension], Services.hair_styling == on_off[hairsyling],
-#     Services.makeup == on_off[makeup], Services.mens_haircut == on_off[mens_haircut], 
-#     Services.womens_haircut == on_off[womens_haircut])
-
-    # q = db.query(Salon).filter(Services.coloring == on_off[coloring]).filter(Services.blowout == on_off[blowout])\
-    # .filter(Services.hair_treatment == on_off[hair_treatment]).filter(Services.kids_haircut == on_off[kids_haircut])\
-    # .filter(Services.bridal_service == on_off[bridal_service]).filter(Services.hair_extension == on_off[hair_extension])\
-    # .filter(Services.hairsyling == on_off[hairsyling]).filter(Services.makeup == on_off[makeup])\
-    # .filter(Services.mens_haircut == on_off[mens_haircut]).filter(Services.womens_haircut == on_off[womens_haircut])\
-    # .filter(Amenities.mask_required == on_off[mask_required]).filter(Amenities.accepts_card == on_off[accepts_card])\
-    # .filter(Amenities.accepts_andriod == on_off[accepts_andriod]).filter(Amenities.accepts_apple == on_off[accepts_apple])\
-    # .filter(Amenities.good_for_kids == on_off[good_for_kids]).filter(Amenities.car_parking == on_off[car_parking])\
-    # .filter(Amenities.bike_parking == on_off[bike_parking]).filter(Amenities.free_wifi == on_off[free_wifi])\
-    # .filter(Amenities.wheelchair_access == on_off[wheelchair_access]).filter(Amenities.restrooms == on_off[restrooms])\
-    # .filter(Amenities.appointments == on_off[appointments])\
-    # .filter(Salon.budget==budgets[budget]).join(Amenities, Salon.salon_id == Amenities.salon_id).join(Services, Salon.salon_id == Services.salon_id).all()
